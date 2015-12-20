@@ -1,0 +1,1 @@
+# TexBar inbox-counter
