@@ -31,8 +31,7 @@ for (( i = 1; i <=  $#accounts; i++ )) do
 	authuser=`echo ${auth} | cut -d : -f 1`;
 
 	curl=`curl -su ${auth} ${feed}`;
-	mailcount=`echo ${curl} | awk -vRS="</fullcount>"\
-	'{gsub(/.*<fullcount.*>/,"");print}' | head -1`;
+	mailcount=`echo ${curl} | awk 'gsub(/.*<fullcount>|<\/fullcount>.*/,g)'`;
 	
 	(( unreadsum = mailcount + unreadsum ));
 
