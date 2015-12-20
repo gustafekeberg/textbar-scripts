@@ -11,3 +11,5 @@ Multiple accounts can be configured. They need to be separated with a semicolon:
 Call script:
 
     ./inbox-checker.zsh "name,username:password"
+
+A click on the account in the menubar will open the account in webbrowser.
