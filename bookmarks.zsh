@@ -15,12 +15,13 @@ delimiter=";"
 zmodload zsh/mapfile
 bookmarks=( "${(f)mapfile[$file]}" )
 
-if [[ -z $EDITOR ]]; then
-	EDITOR="open -t"
-fi
 case $TEXTBAR_TEXT in
 	$edittext )
-		$EDITOR "$file"
+		if [[ -z $EDITOR ]]; then
+			open -t $file
+		else
+			$EDITOR $file
+		fi
 		;;
 	* )
 		if [[ -n $TEXTBAR_INDEX && $TEXTBAR_TEXT != $divider  ]]; then
