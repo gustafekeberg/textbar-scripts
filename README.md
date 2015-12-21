@@ -12,4 +12,8 @@ Call script:
 
     ./inbox-checker.zsh "name,username:password"
 
-A click on the account in the menubar will open the account in webbrowser.
+A click on the account in the menubar will open the account in browser.
+
+You can also specify regular gmail or google inbox by passing `gmail` or `inbox` as a second argument. Inbox will be default if there's no argument present.
+
+    "name,username:password" gmail
