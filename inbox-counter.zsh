@@ -2,12 +2,19 @@
 
 ######################################################################
 #                                                                    #
-# This script takes account-config as input "name,username:password" #
+# This script takes account-config as an argument:                   #
+#                                                                    #
+#     "name,username:password"                                       #
+#                                                                    #
 # Multiple accounts needs to be separated with a semicolon like this #
-# "name,username:password;name2,username2:password2"                 #
+#                                                                    #
+#     "name,username:password;name2,username2:password2"             #
+#                                                                    #
+# You can also pass a second argument for "gmail" or "inbox"         #
 #                                                                    #
 # Call script like this:                                             #
-# ./inbox-checker.zsh "name,username:password"                       #
+#                                                                    #
+# ./inbox-checker.zsh "name,username:password" gmail                 #
 #                                                                    #
 ######################################################################
 
@@ -20,8 +27,19 @@ unreadicon=" ";
 emptyicon=$unreadicon;
 notifyicon="❗️";
 
+gmail="https://mail.google.com/mail/u/?authuser=";
+inbox="https://inbox.google.com/u/?authuser=";
 feed="https://mail.google.com/mail/feed/atom";
-url="https://inbox.google.com/u/?authuser=";
+
+case $2 in
+    gmail )
+        url=$gmail;
+        ;;
+    *|inbox )
+        url=$inbox;
+        ;;
+esac
+
 input=$1;
 accounts=("${(@s/;/)input}");
 
