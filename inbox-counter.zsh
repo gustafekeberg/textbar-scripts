@@ -4,17 +4,15 @@
 #                                                                    #
 # This script takes account-config as an argument:                   #
 #                                                                    #
-#     "name,username:password"                                       #
+#     "user:password,optional account name,optional inbox/gmail"     #
 #                                                                    #
 # Multiple accounts needs to be separated with a semicolon like this #
 #                                                                    #
-#     "name,username:password;name2,username2:password2"             #
-#                                                                    #
-# You can also pass a second argument for "gmail" or "inbox"         #
+#     "user:pass,account name,inbox/gmail;user2:pass2"               #
 #                                                                    #
 # Call script like this:                                             #
 #                                                                    #
-# ./inbox-checker.zsh "name,username:password" gmail                 #
+#     zsh inbox-counter.zsh "user:pass,name,inbox"                   #
 #                                                                    #
 ######################################################################
 
@@ -31,22 +29,28 @@ gmail="https://mail.google.com/mail/u/?authuser=";
 inbox="https://inbox.google.com/u/?authuser=";
 feed="https://mail.google.com/mail/feed/atom";
 
-case $2 in
-    gmail )
-        url=$gmail;
-        ;;
-    *|inbox )
-        url=$inbox;
-        ;;
-esac
 
 input=$1;
 accounts=("${(@s/;/)input}");
 
 for (( i = 1; i <=  $#accounts; i++ )) do
-	auth=`echo ${accounts[i]} | cut -d , -f 2`;
-	name=`echo ${accounts[i]} | cut -d , -f 1`;
-	authuser=`echo ${auth} | cut -d : -f 1`;
+	auth=`echo ${accounts[i]} | cut -d , -f 1`;
+	user=`echo ${auth} | cut -d : -f 1`;
+	name=`echo ${accounts[i]} | cut -d , -f 2`;
+	open=`echo ${accounts[i]} | cut -d , -f 3`;
+	
+	if [[ -z $name || $name == $auth ]]; then
+		name=$user
+	fi
+	
+	case $open in
+	    gmail )
+	        url=$gmail;
+	        ;;
+	    *|inbox )
+	        url=$inbox;
+	        ;;
+	esac
 
 	curl=`curl -su ${auth} ${feed}`;
 	mailcount=`echo ${curl} | awk 'gsub(/.*<fullcount>|<\/fullcount>.*/,g)'`;
@@ -57,7 +61,7 @@ for (( i = 1; i <=  $#accounts; i++ )) do
 	output="${output}\n${row}";	
 
 	if [[ $i == $TEXTBAR_INDEX ]]; then
-		open "${url}${authuser}";
+		open "${url}${user}";
 		exit;
 	fi
 done
