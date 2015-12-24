@@ -19,25 +19,26 @@
 
 # Config
 # -----------
-title="️";
-unreadicon="✉️";
-unreadicon=" ";
-emptyicon=$unreadicon;
-notifyicon="❗️";
+title="️"
+unreadicon="✉️"
+unreadicon=""
+emptyicon=$unreadicon
+notifyicon="❗️"
+spacing=" "
 
-gmail="https://mail.google.com/mail/u/?authuser=";
-inbox="https://inbox.google.com/u/?authuser=";
-feed="https://mail.google.com/mail/feed/atom";
+gmail="https://mail.google.com/mail/u/?authuser="
+inbox="https://inbox.google.com/u/?authuser="
+feed="https://mail.google.com/mail/feed/atom"
 
 
-input=$1;
-accounts=("${(@s/;/)input}");
+input=$1
+accounts=("${(@s/;/)input}")
 
 for (( i = 1; i <=  $#accounts; i++ )) do
-	auth=`echo ${accounts[i]} | cut -d , -f 1`;
-	user=`echo ${auth} | cut -d : -f 1`;
-	name=`echo ${accounts[i]} | cut -d , -f 2`;
-	open=`echo ${accounts[i]} | cut -d , -f 3`;
+	auth=`echo ${accounts[i]} | cut -d , -f 1`
+	user=`echo ${auth} | cut -d : -f 1`
+	name=`echo ${accounts[i]} | cut -d , -f 2`
+	open=`echo ${accounts[i]} | cut -d , -f 3`
 	
 	if [[ -z $name || $name == $auth ]]; then
 		name=$user
@@ -45,34 +46,34 @@ for (( i = 1; i <=  $#accounts; i++ )) do
 	
 	case $open in
 	    gmail )
-	        url=$gmail;
+	        url=$gmail
 	        ;;
 	    *|inbox )
-	        url=$inbox;
+	        url=$inbox
 	        ;;
 	esac
 
-	curl=`curl -su ${auth} ${feed}`;
-	mailcount=`echo ${curl} | awk 'gsub(/.*<fullcount>|<\/fullcount>.*/,g)'`;
+	curl=`curl -su ${auth} ${feed}`
+	mailcount=`echo ${curl} | awk 'gsub(/.*<fullcount>|<\/fullcount>.*/,g)'`
 	
-	(( unreadsum = mailcount + unreadsum ));
+	(( unreadsum = mailcount + unreadsum ))
 
-	row="${mailcount}\t${name}";
+	row="${mailcount}\t${name}"
 	output="${output}\n${row}";	
 
 	if [[ $i == $TEXTBAR_INDEX ]]; then
-		open "${url}${user}";
-		exit;
+		open "${url}${user}"
+		exit
 	fi
 done
 
 # Output
 # -------------------------------------------------------------------------
 if [[ $unreadsum == "0" ]]; then
-	messagestatus=$emptyicon;
+	messagestatus=$emptyicon
 else
-	messagestatus=$unreadicon$unreadsum;
+	messagestatus=$unreadicon$spacing$unreadsum
 fi
 
-echo $title$messagestatus;
-echo $output;
+echo $title$messagestatus
+echo $output
