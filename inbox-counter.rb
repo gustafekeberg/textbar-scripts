@@ -22,11 +22,8 @@ config = {
 
 # Variables
 
-input = ARGF.argv
-output = input
 conf_vars = {}
 args = ARGF.argv
-inbox_array = []
 total_unread = 0
 status_unreachable_all = config['unreachable']
 if ENV['TEXTBAR_INDEX']
