@@ -3,7 +3,7 @@
 
 require 'colorize'
 
-width_menubar = 5
+width_menubar = 1
 width_menu = 12
 show_top_processes = 6
 $markers = {
@@ -46,7 +46,7 @@ end
 top_cpu_out = top_cpu_out.split("\n")
 
 def paint_dots(percent, width)
-	if percent > 100
+	if percent >= 100
 		percent = 100
 	end
 	filled_dots = (percent / 100.0 * width).round
@@ -69,9 +69,9 @@ def paint_dots(percent, width)
 	end
 
 	filled_colorized = filled.green
-	if percent > 70
+	if percent >= 70 && percent < 90
 		filled_colorized = filled.yellow
-	elsif percent > 90
+	elsif percent >= 90
 		filled_colorized = filled.red
 	end
 	return "#{filled_colorized}#{empty}"
@@ -83,5 +83,5 @@ puts "#{load_direction} #{paint_dots(load_percent_current, width_menubar)}"
 puts "LOAD: #{system_load_avg[0]}, #{system_load_avg[1]}, #{system_load_avg[2]}"
 puts "#{paint_dots(cpu_percent_rounded, width_menu)} CPU #{cpu_percent_rounded}%"
 puts "#{paint_dots(mem_percent_rounded, width_menu)} RAM #{mem_percent_rounded}%"
-puts "---"
+puts "--"
 puts top_cpu_out[1..show_top_processes]
