@@ -25,7 +25,6 @@ config = {
 conf_vars = {}
 args = ARGF.argv
 total_unread = 0
-status_unreachable_all = config['unreachable']
 if ENV['TEXTBAR_INDEX']
 	textbar_index = ENV['TEXTBAR_INDEX'].to_i
 end
@@ -73,6 +72,7 @@ elsif default_conf_file
 	config = config.merge( YAML.load_file( default_conf_file ) )
 end
 
+status_unreachable_all = config['unreachable']
 accounts = config['accounts']
 
 # Open inbox if textbar_index is set
@@ -84,16 +84,20 @@ if textbar_index
 # Else get inbox data if accounts in config
 elsif accounts.length > 0
 	count_output = []
+	threads = []
 	accounts.map.with_index do |l, i|
-		begin
-			count = read_inbox( accounts[i] )
-			total_unread += count
-			status_unreachable_all = ""
-			count_output.push( "#{count}\t#{accounts[i]['display']}")
-		rescue
-			count_output.push( "#{config['unreachable']}\t#{accounts[i]['display']}")
-		end
+		threads << Thread.new {
+			begin
+				count = read_inbox( accounts[i] )
+				total_unread += count
+				status_unreachable_all = ""
+				count_output[i] = "#{count}\t#{accounts[i]['display']}"
+			rescue
+				count_output[i] = "#{config['unreachable']}\t#{accounts[i]['display']}"
+			end
+		}
 	end
+	threads.each { |thr| thr.join }
 
 	# Prepare output
 	icon = config['unreadicon']
