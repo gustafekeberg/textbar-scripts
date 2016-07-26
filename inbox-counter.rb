@@ -2,12 +2,9 @@
 #<Encoding:UTF-8>
 
 require 'rubygems'
-# require 'open-uri'
-require 'net/http'
 require 'net/imap'
 require 'yaml'
 require 'fileutils'
-require 'xmlsimple'
 
 # Setup
 
