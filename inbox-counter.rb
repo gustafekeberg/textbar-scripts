@@ -26,13 +26,6 @@ if ENV['TEXTBAR_INDEX']
 	textbar_index = ENV['TEXTBAR_INDEX'].to_i
 end
 
-@urls = {
-	"google_gmail" => "https://mail.google.com/mail/u/?authuser=",
-	"google_inbox" => "https://inbox.google.com/u/?authuser=",
-	"google_feed" => "https://mail.google.com/mail/feed/atom",
-}
-
-
 # Functions
 
 def read_inbox ( account )
