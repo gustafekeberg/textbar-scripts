@@ -68,8 +68,8 @@ accounts = config['accounts']
 # Open inbox if textbar_index is set
 if textbar_index
 	account = accounts[textbar_index - 1]
-	view = account['view']
-	`/usr/bin/open #{view}`
+	command = account['command']
+	`#{command}`
 
 # Else get inbox data if accounts in config
 elsif accounts.length > 0
