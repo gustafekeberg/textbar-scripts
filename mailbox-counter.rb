@@ -8,7 +8,7 @@ require 'fileutils'
 
 # Setup
 
-default_conf_file = "#{ENV['HOME']}/.textbar-scripts-config/inbox-counter.yaml"
+default_conf_file = "#{ENV['HOME']}/.textbar-scripts-config/mailboxes.yaml"
 config = {
 	"title" => "",
 	"unreadicon" => "✉ ",
