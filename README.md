@@ -4,6 +4,8 @@ Scripts to be used with [TextBar](http://www.richsomerfield.com/apps/).
 
 ## Mailbox counter - `mailbox-counter.rb`
 
+![](https://github.com/gustafekeberg/textbar-scripts/raw/screenshots/mailbox-counter.jpg)
+
 - This ruby counts unread mails in a mailbox via IMAP.
 - Multiple accounts are possible.
 - The configuration file uses YAML-format.
