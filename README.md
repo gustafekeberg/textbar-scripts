@@ -2,20 +2,37 @@
 
 Scripts to be used with [TextBar](http://www.richsomerfield.com/apps/).
 
-## Google inbox counter - `inbox-counter.zsh`
+## Inbox counter - `inbox-counter.rb`
 
-This zsh-scripts counts unread mails in gmail. Multiple accounts are possible. The title will be the sum of unread mails from all accounts.
+- This ruby counts unread mails in a mailbox via IMAP.
+- Multiple accounts are possible.
+- The configuration file uses YAML-format.
+- When used with TextBar the script can perform a custom command for each mailbox
 
-Google accounts configuration is passed as an argument to the script:
+Sample YAML-config file:
 
-    "name,username:password"
+```yaml
+unreadicon: " "
+emptyicon: ""
+unreachable: "❓"
+unreachable: "⚠️"
 
-Multiple accounts are separated with a semicolon:
+accounts:
+  - display: "account 1 name"
+    username: "my@username"
+    password: "***"
+    command: "/usr/bin/open https://inbox.google.com/u/?authuser=my@username"
+    port: 993
+    ssl: true
+    imap: "imap.googlemail.com"
+    mailbox: "INBOX"
 
-    "name,username:password;name2,username2:password2"
-
-A click on the account line in the menubar will open the account in browser.
-
-You can also specify if you want to open *regular gmail* or *google inbox* by passing `gmail` or `inbox` as a second argument to the script. Google inbox is the default if no argument is present.
-
-    "name,username:password" gmail
+  - display: "account 2 name"
+    username: "my2nd@username"
+    password: "mxmxukubkiaehync"
+    command: "/usr/bin/open https://mail.google.com/mail/u/?authuser=my2nd@username"
+    port: 993
+    ssl: true
+    imap: "imap.googlemail.com"
+    mailbox: "INBOX"
+```
