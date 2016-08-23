@@ -48,7 +48,7 @@ if textbar_index
 	item = config["list"][textbar_index - 1]
 	puts config["list"].length
 	if textbar_index == config["list"].length + 2
-		`$EDITOR #{config_file}`
+		`$EDITOR '#{config_file}'`
 	elsif item != "--" || textbar_index != config["list"].length + 2
 		`/usr/bin/open #{item["url"]}`
 	end
