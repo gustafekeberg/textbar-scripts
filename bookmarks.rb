@@ -50,7 +50,7 @@ if textbar_index
 	if textbar_index == config["list"].length + 2
 		`$EDITOR '#{config_file}'`
 	elsif item != "--" || textbar_index != config["list"].length + 2
-		`/usr/bin/open #{item["url"]}`
+		`/usr/bin/open '#{item["url"]}'`
 	end
 else
 	list = make_list( config["list"] )
